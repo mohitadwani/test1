@@ -1,0 +1,22 @@
+{
+  "name": "test1",
+  "version": "0.0.0",
+  "homepage": "index.html",
+  "authors": [
+    "mohitadwani <mohitadwani@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.5.0",
+    "angular-material": "~1.0.6",
+    "jquery-ui": "~1.11.4",
+    "requirejs": "~2.1.22"
+  }
+}
