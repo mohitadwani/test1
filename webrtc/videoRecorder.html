@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="videoRecorderApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Video Rec</title>
+	<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="app/modules/videoRecorderApp.js"></script>
+	<script type="text/javascript" src="app/controllers/VideoRecorderCtrl.js"></script>
+</head>
+<body ng-controller="VideoRecorderCtrl as vidRecCtrl">
+	<video id="recorder" autoplay></video>
+	<video id="player" autoplay></video>
+	<button type="button" ng-click="vidRecCtrl.startRecording()">Record</button>
+	<button type="button" ng-click="vidRecCtrl.stopRecording()">Stop</button>
+	<button type="button" ng-click="vidRecCtrl.play()">Play</button>
+	<button type="button">Download</button>
+</body>
+</html>
