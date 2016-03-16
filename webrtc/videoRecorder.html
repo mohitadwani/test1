@@ -10,10 +10,10 @@
 </head>
 <body ng-controller="VideoRecorderCtrl as vidRecCtrl">
 	<video id="recorder" autoplay></video>
-	<video id="player" autoplay></video>
+	<video id="player"></video>
 	<button type="button" ng-click="vidRecCtrl.startRecording()">Record</button>
 	<button type="button" ng-click="vidRecCtrl.stopRecording()">Stop</button>
-	<button type="button" ng-click="vidRecCtrl.play()">Play</button>
+	<!-- <button type="button" ng-click="vidRecCtrl.play()">Play</button> -->
 	<button type="button">Download</button>
 </body>
 </html>

@@ -14,6 +14,7 @@
             video: true
         };
         var myMediaDevices;
+        var cameraStream;
         // navigator.getUserMedia = (navigator.getUserMedia ||
         //     navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
 
@@ -23,6 +24,7 @@
         var handleSourceOpen = handleSourceOpen;
         var handleStop = handleStop;
         var handleDataAvailable = handleDataAvailable;
+        var closeVideoCamera = closeVideoCamera;
 
         vm.startRecording = startRecording;
         vm.stopRecording = stopRecording;
@@ -88,25 +90,33 @@
         /*Local Functions end*/
 
         function startRecording() {
-            getVideoPermissions().then(function() {
+            getVideoPermissions().then(function(stream) {
+                cameraStream = stream;
+                if (window.URL) {
+                    videoRecorder.src = window.URL.createObjectURL(stream);
+                } else {
+                    videoRecorder.src = stream;
+                }
+                videoRecorder.volume=0;
+                console.log(videoRecorder.volume);
                 var options = {
                     mimeType: 'video/webm'
                 };
                 recordedBlobs = [];
                 try {
-                    mediaRecorder = new MediaRecorder(window.stream, options);
+                    mediaRecorder = new MediaRecorder(cameraStream, options);
                 } catch (e0) {
                     console.log('Unable to create MediaRecorder with options Object: ', e0);
                     try {
                         options = {
                             mimeType: 'video/webm,codecs=vp9'
                         };
-                        mediaRecorder = new MediaRecorder(window.stream, options);
+                        mediaRecorder = new MediaRecorder(cameraStream, options);
                     } catch (e1) {
                         console.log('Unable to create MediaRecorder with options Object: ', e1);
                         try {
                             options = 'video/vp8'; // Chrome 47
-                            mediaRecorder = new MediaRecorder(window.stream, options);
+                            mediaRecorder = new MediaRecorder(cameraStream, options);
                         } catch (e2) {
                             alert('MediaRecorder is not supported by this browser.\n\n' +
                                 'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
@@ -127,28 +137,33 @@
         function stopRecording() {
             videoRecorder.src = "";
             mediaRecorder.stop();
+            closeVideoCamera(cameraStream);
             console.log('Recorded Blobs: ', recordedBlobs);
             videoPlayer.controls = true;
-        }
-
-        function play() {
             var superBuffer = new Blob(recordedBlobs, {
                 type: 'video/webm'
             });
             videoPlayer.src = window.URL.createObjectURL(superBuffer);
+            // window.stream.stop();
+        }
+
+        function play() {
         }
 
         function getVideoPermissions() {
             return myMediaDevices.getUserMedia(constraints).then(function(stream) {
-                window.stream = stream; // stream available to console
-                console.log(window.URL);
-                console.log(window.stream);
-                if (window.URL) {
-                    videoRecorder.src = window.URL.createObjectURL(stream);
-                } else {
-                    videoRecorder.src = stream;
-                }
-                return true;
+                // window.stream = stream; // stream available to console
+                // console.log(window.URL);
+                console.log(stream);
+                console.log(stream.getTracks());
+                console.log(stream.getAudioTracks());
+                return stream;
+            });
+        }
+
+        function closeVideoCamera(stream) {
+            stream.getTracks().forEach(function(track) {
+                track.stop();
             });
         }
     }
