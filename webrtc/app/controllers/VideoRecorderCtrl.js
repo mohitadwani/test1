@@ -29,6 +29,7 @@
         vm.startRecording = startRecording;
         vm.stopRecording = stopRecording;
         vm.play = play;
+        vm.downloadVideo = downloadVideo;
 
         init();
 
@@ -97,7 +98,7 @@
                 } else {
                     videoRecorder.src = stream;
                 }
-                videoRecorder.volume=0;
+                videoRecorder.volume = 0;
                 console.log(videoRecorder.volume);
                 var options = {
                     mimeType: 'video/webm'
@@ -147,8 +148,7 @@
             // window.stream.stop();
         }
 
-        function play() {
-        }
+        function play() {}
 
         function getVideoPermissions() {
             return myMediaDevices.getUserMedia(constraints).then(function(stream) {
@@ -165,6 +165,40 @@
             stream.getTracks().forEach(function(track) {
                 track.stop();
             });
+        }
+
+        function downloadVideo() {
+            var blob = new Blob(recordedBlobs, {
+                type: 'video/webm'
+            });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'test.webm';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+        }
+
+        function download() {
+            var blob = new Blob(recordedBlobs, {
+                type: 'video/webm'
+            });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'test.webm';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
         }
     }
 })();
