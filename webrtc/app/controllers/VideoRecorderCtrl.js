@@ -9,10 +9,6 @@
         var sourceBuffer;
         var videoRecorder = document.getElementById('recorder');
         var videoPlayer = document.getElementById('player');
-        var constraints = {
-            audio: true,
-            video: true
-        };
         var myMediaDevices;
         var cameraStream;
         // navigator.getUserMedia = (navigator.getUserMedia ||
@@ -139,11 +135,12 @@
             videoRecorder.src = "";
             mediaRecorder.stop();
             closeVideoCamera(cameraStream);
-            console.log('Recorded Blobs: ', recordedBlobs);
+            // console.log('Recorded Blobs: ', recordedBlobs);
             videoPlayer.controls = true;
             var superBuffer = new Blob(recordedBlobs, {
                 type: 'video/webm'
             });
+            console.log(superBuffer);
             videoPlayer.src = window.URL.createObjectURL(superBuffer);
             // window.stream.stop();
         }
@@ -151,6 +148,10 @@
         function play() {}
 
         function getVideoPermissions() {
+            var constraints = {
+                audio: true,
+                video: true
+            };
             return myMediaDevices.getUserMedia(constraints).then(function(stream) {
                 // window.stream = stream; // stream available to console
                 // console.log(window.URL);
