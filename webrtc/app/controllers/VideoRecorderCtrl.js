@@ -35,6 +35,9 @@
             //     console.log("The browser doesn't support.");
             // }
             // navigator.getUserMedia(constraints, successCallback, errorCallback);
+            console.log(MediaRecorder.isTypeSupported("video/mp4"));
+            console.log(MediaRecorder.isTypeSupported("video/webm;codecs=h264,opus"));
+            console.log('sodlfnjskdnfksdnkg');
             myMediaDevices = (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) ?
                 navigator.mediaDevices : ((navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
                     getUserMedia: function(c) {
